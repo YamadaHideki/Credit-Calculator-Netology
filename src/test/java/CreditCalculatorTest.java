@@ -3,19 +3,16 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class CreditCalculatorTest {
-    private CreditCalculator creditCalculator = new CreditCalculator();
+    private final CreditCalculator creditCalculator = new CreditCalculator();
 
     // процент годовых
-    private static double yearPercent = 15;
-
-    // процентная ставка по кредиту в месяц
-    private static double loanPaymentMonthRate = yearPercent / (100 * yearPercent);
+    private static final double yearPercent = 15;
 
     // количество платежей
-    private static int countPayment = 12;
+    private static final int countPayment = 12;
 
     // количество занятых денег
-    private static double borrowedMoney = 300000;
+    private static final double borrowedMoney = 300000;
 
     public static double annuityPayment;
     public static double allMoneyBackInBank;
@@ -23,8 +20,10 @@ public class CreditCalculatorTest {
 
     @BeforeAll
     public static void beforeAll() {
+        // процентная ставка по кредиту в месяц
+        double loanPaymentMonthRate = yearPercent / (100 * yearPercent);
         annuityPayment = borrowedMoney * (loanPaymentMonthRate / (1 - Math.pow(1 + loanPaymentMonthRate, -countPayment)));
-        allMoneyBackInBank = borrowedMoney * (loanPaymentMonthRate / (1 - Math.pow(1 + loanPaymentMonthRate, -countPayment))) * countPayment;
+        allMoneyBackInBank = annuityPayment * countPayment;
         calculationOfOverpayments = allMoneyBackInBank - borrowedMoney;
     }
 
